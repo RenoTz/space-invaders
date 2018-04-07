@@ -6,7 +6,7 @@ import fr.renotz.com.space_invaders.modele.joueur.Joueur;
 
 public class InterfaceJeu {
 
-	Play f;
+	private Play f;
 	Loader l;
 	private int minute = 3, seconde = 00;
 	private long intervalle = 1000;
