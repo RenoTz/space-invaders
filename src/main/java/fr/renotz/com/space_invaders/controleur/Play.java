@@ -1,6 +1,8 @@
 package fr.renotz.com.space_invaders.controleur;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import fr.renotz.com.space_invaders.modele.ennemis.Boss;
 import fr.renotz.com.space_invaders.modele.joueur.Joueur;
@@ -12,22 +14,30 @@ import processing.core.PImage;
 @SuppressWarnings("serial")
 public class Play extends PApplet{
 	
-	PImage fond; 
-	InterfaceJeu i;
-	Loader l;
-	boolean pause = false;
-	private int cpt = 0;
-	public static ArrayList<JTir> projectilesJ = new ArrayList<>();
-	public static ArrayList<JTir> projectilesA = new ArrayList<>();
-	public static ArrayList<AVaisseau> vExplosion = new ArrayList<>();
-	long bip = 0; 
+	private PImage fond; 
+	private InterfaceJeu interfaceJeu;
+	private Loader loader;
+	private List<JTir> projectilesJ;
+	private List<JTir> projectilesA;
+	private List<AVaisseau> vExplosion;
+	private Long bip; 
+	private boolean pause;
+	private int cpt;
 	
 	public void setup(){
 		// fenetre
-		size(1280,800);
-		l = new Loader(this);
-		frameRate(60);
-		fond=loadImage("../../../src/main/ressources/images/universFond.jpg");
+		this.size(1280,800);
+		this.loader = new Loader(this);
+		this.setInterfaceJeu(loader.getInterfaceJeu());
+		this.frameRate(60);
+		this.fond=loadImage("../../../src/main/ressources/images/universFond.jpg");
+		// init des listes et des attributs
+		this.projectilesJ = Lists.newArrayList();
+		this.projectilesA = Lists.newArrayList();
+		this.vExplosion = Lists.newArrayList();
+		this.bip = new Long(0);
+		this.cpt = 0;
+		this.pause = false;
 	}
 
 	public void draw(){
@@ -37,12 +47,12 @@ public class Play extends PApplet{
 		
 		if(!isPause()){
 			// Listes des tirs et des vaisseaux qui seront d�truits 
-			ArrayList<JTir> tirDetruit = new ArrayList<>();
-			ArrayList<AVaisseau> vaisseauDetruit = new ArrayList<>();
+			List<JTir> tirDetruit = Lists.newArrayList();
+			List<AVaisseau> vaisseauDetruit = Lists.newArrayList();
 			// D�claration liste des tirs Aliens � d�truire
-			ArrayList<JTir> tirADetruit = new ArrayList<>();
+			List<JTir> tirADetruit = Lists.newArrayList();
 		// vaisseaux : deplacement et dessin		
-		for (AVaisseau v : Loader.vaisseaux){				
+		for (AVaisseau v : loader.getVaisseaux()){				
 			v.deplacer();
 			v.dessiner();
 			// Si collision --> ajout vaisseau et tir aux listes respectives
@@ -106,8 +116,8 @@ public class Play extends PApplet{
 		
 		// Suppression vaisseaux d�truits et modifications du score total
 		for (AVaisseau v : vaisseauDetruit){			
-			InterfaceJeu.setScore(v.getPoints());
-			destructionVaisseau(v,Loader.vaisseaux);			
+			this.getInterfaceJeu().setScore(v.getPoints());
+			destructionVaisseau(v,loader.getVaisseaux());			
 		}
 				
 		//Affichage animation explosion
@@ -121,17 +131,17 @@ public class Play extends PApplet{
 		
 		// Creation du BOSS
 		if( InterfaceJeu.getScore() == 4750 &&  !Boss.boss){
-			l.loadBoss();
+			loader.loadBoss();
 			Boss.boss = true;
 		}
 		
 		}else{
-			for (AVaisseau v : Loader.vaisseaux){				
-				v.dessiner();
-			}
+				for (AVaisseau v : loader.getVaisseaux()){				
+					v.dessiner();
+				}
 		}		
 		// Affichage du cadre
-		l.i.cadre();
+		loader.getInterfaceJeu().cadre();
 	}
 
 	/****************************************************************
@@ -140,7 +150,7 @@ public class Play extends PApplet{
 	 *      de la liste des tirs cr��s :                             *
 	 *		==> Suppression du tir                                  *
 	 ****************************************************************/
-	public void destructionTir(JTir tDetruit,ArrayList<JTir> list)
+	public void destructionTir(JTir tDetruit,List<JTir> list)
 	{		
 		for(JTir t : list){
 			if(t.equals(tDetruit))
@@ -158,7 +168,7 @@ public class Play extends PApplet{
 	 *      vaisseau de la liste des vaisseaux cr��s :                *
 	 *		==> Suppression du vaisseau                               *
 	 ******************************************************************/
-	public void destructionVaisseau(AVaisseau vDetruit,ArrayList<AVaisseau> list)
+	public void destructionVaisseau(AVaisseau vDetruit,List<AVaisseau> list)
 	{		
 		for(AVaisseau v : list){
 			if(v.equals(vDetruit))
@@ -188,4 +198,36 @@ public class Play extends PApplet{
 		
 	}
 	
+	public List<JTir> getProjectilesJ() {
+		return projectilesJ;
+	}
+
+	public void setProjectilesJ(List<JTir> projectilesJ) {
+		this.projectilesJ = projectilesJ;
+	}
+
+	public List<JTir> getProjectilesA() {
+		return projectilesA;
+	}
+
+	public void setProjectilesA(List<JTir> projectilesA) {
+		this.projectilesA = projectilesA;
+	}
+
+	public List<AVaisseau> getvExplosion() {
+		return vExplosion;
+	}
+
+	public void setvExplosion(List<AVaisseau> vExplosion) {
+		this.vExplosion = vExplosion;
+	}
+
+	public InterfaceJeu getInterfaceJeu() {
+		return interfaceJeu;
+	}
+
+	public void setInterfaceJeu(InterfaceJeu interfaceJeu) {
+		this.interfaceJeu = interfaceJeu;
+	}
+
 }

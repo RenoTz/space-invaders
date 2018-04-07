@@ -42,7 +42,7 @@ public class MobileB implements IMobile {
 			ITirs ta = new TirAlien1(f, new Position(x+18,y), false,25);
 			IVueTirs vta = new vueTirNormal(f,ta);
 			Tir jta = new Tir(ta,vta);
-			Play.projectilesA.add(jta);				
+			f.getProjectilesA().add(jta);				
 		}	
 		
 		setR(getR() + 1);		

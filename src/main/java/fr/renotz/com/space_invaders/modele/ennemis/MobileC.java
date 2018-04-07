@@ -57,7 +57,7 @@ public class MobileC implements IMobile{
 			ITirs ta = new TirAlien1(f, new Position(position.getXpix()+18,position.getYpix()), false, 50);
 			IVueTirs vta = new vueTirNormal(f,ta);
 			Tir jta = new Tir(ta,vta);
-			Play.projectilesA.add(jta);					
+			f.getProjectilesA().add(jta);					
 		}		
 			
 	}

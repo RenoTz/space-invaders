@@ -14,9 +14,11 @@ public class SpriteJoueur extends ASprite {
 	private boolean fini = false;
 	PImage spriteJoueur,spriteJoueur2,spriteJoueur3,
 	spriteJoueur4,spriteJoueur5,spriteJoueur6,spriteJoueurG,spriteJoueurD;
+	private Loader loader;
 	
-	public SpriteJoueur(PApplet fenetre, IMobile mobile) {
+	public SpriteJoueur(Loader loader, PApplet fenetre, IMobile mobile) {
 		super(fenetre, mobile);
+		this.loader = loader;
 		
 		spriteJoueur = fenetre.loadImage("../images/Joueur/sfighter.PNG");
 		spriteJoueur2 = fenetre.loadImage("../images/Joueur/sfighter2.PNG");
@@ -74,11 +76,11 @@ public class SpriteJoueur extends ASprite {
 		int x = v.getPosition().getXpix();
 		int y = v.getPosition().getYpix();
 		
-		fenetre.image((Loader.boom[cptAnim]), x - decalage , y - decalage);
+		fenetre.image((this.loader.getBoom()[cptAnim]), x - decalage , y - decalage);
 		
 		cptAnim++;
 		
-		if(cptAnim == Loader.boom.length){
+		if(cptAnim == this.loader.getBoom().length){
 			fini = true;
 		}
 		

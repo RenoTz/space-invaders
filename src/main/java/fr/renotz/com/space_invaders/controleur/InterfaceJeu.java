@@ -6,21 +6,20 @@ import fr.renotz.com.space_invaders.modele.joueur.Joueur;
 
 public class InterfaceJeu {
 
-	private Play f;
-	Loader l;
+	private Play play;
 	private int minute = 3, seconde = 00;
 	private long intervalle = 1000;
 	private long lastTime = 0;
 	private String time = "";
 	private static int score = 0;
-	PImage JspriteTir1, JspriteTir2;
+	private PImage JspriteTir1, JspriteTir2;
 	
-	public InterfaceJeu(Play f) {
-		this.f = f;
-		JspriteTir1 = f.loadImage("../images/boule.png");
-		JspriteTir2 = f.loadImage("../images/Missile.png");
-		JspriteTir1.resize(45, 0);
-		JspriteTir2.resize(12, 0);
+	public InterfaceJeu(Play play) {
+		this.play = play;
+		this.JspriteTir1 = play.loadImage("../images/boule.png");
+		this.JspriteTir2 = play.loadImage("../images/Missile.png");
+		this.JspriteTir1.resize(45, 0);
+		this.JspriteTir2.resize(12, 0);
 	}
 
 	public void cadre() {
@@ -33,7 +32,7 @@ public class InterfaceJeu {
 		rect(200, 0, 1155, 40);
 		if (Joueur.isGameOver() || minute == 0 && seconde == 0) 
 		{
-			f.frameRate(30);
+			play.frameRate(30);
 			text("***       GAME OVER       ***", 440, 30, 30);			
 		} else if (Boss.isCollision() && minute >= 0 && seconde > 0) {
 			text("***        YOU WON        ***", 440, 30, 30);
@@ -52,9 +51,9 @@ public class InterfaceJeu {
 		//Affichage du type tir du joueur
 		rect(1240,80,40,40);
 		if(Joueur.getCptTirs()% 2 > 0)
-			f.image(JspriteTir2, 1255, 82);		
+			play.image(JspriteTir2, 1255, 82);		
 		else
-			f.image(JspriteTir1, 1240, 80);
+			play.image(JspriteTir1, 1240, 80);
 		
 		//Affichage Commandes de jeu
 		rect(0,780,1280,20);
@@ -64,7 +63,7 @@ public class InterfaceJeu {
 		text("P = Pause ; Echap = Quitter", 1070 , 795 , 15);
 		
 		//Pause
-		if(f.isPause()){
+		if(play.isPause()){
 			text("PAUSE", 385,400,150);
 		}
 	}
@@ -82,7 +81,7 @@ public class InterfaceJeu {
 
 	public String rebours() {
 
-		if(!f.isPause()){
+		if(!play.isPause()){
 			if (seconde < 10)
 				time = minute + " : 0" + seconde;
 			else
@@ -102,31 +101,31 @@ public class InterfaceJeu {
 	}
 
 	public void rect(int x, int y, int w, int h) {
-		f.fill(0, 45, 20);
-		f.rect(x, y, w, h);
+		play.fill(0, 45, 20);
+		play.rect(x, y, w, h);
 	}
 	
 	public void rectVieJoueur(int x, int y, int w, int h) {
-		f.fill(70, 0, 220);
-		f.rect(x, y, w, h);
+		play.fill(70, 0, 220);
+		play.rect(x, y, w, h);
 	}
 	
 	public void rectVieBoss(int x, int y, int w, int h) {
-		f.fill(220, 0, 20);
-		f.rect(x, y, w, h);
+		play.fill(220, 0, 20);
+		play.rect(x, y, w, h);
 	}
 
 	public void text(String str, int x, int y, int s) {
-		f.textSize(s);
-		f.fill(240, 195, 0);
-		f.text(str, x, y);
+		play.textSize(s);
+		play.fill(240, 195, 0);
+		play.text(str, x, y);
 	}
 
 	public static int getScore() {
 		return score;
 	}
 
-	public static void setScore(int score) {
+	public void setScore(int score) {
 		InterfaceJeu.score += score;
 	}
 

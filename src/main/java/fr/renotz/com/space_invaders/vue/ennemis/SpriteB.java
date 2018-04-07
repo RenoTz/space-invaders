@@ -13,9 +13,11 @@ public class SpriteB extends ASprite {
 	private long intervalle = 600;
 	private long dateDebut=0;
 	private boolean fini = false;
+	private Loader loader;
 
-	public SpriteB(PApplet fenetre, IMobile mobile) {
+	public SpriteB(Loader loader, PApplet fenetre, IMobile mobile) {
 		super(fenetre, mobile);
+		this.loader = loader;
 		sprite1 = fenetre.loadImage("../images/alien_H1.png");
 		sprite1.resize(40,0);
 		sprite2 = fenetre.loadImage("../images/alien_H2.png");
@@ -43,11 +45,11 @@ public class SpriteB extends ASprite {
 		int x = v.getPosition().getXpix();
 		int y = v.getPosition().getYpix();
 		
-		fenetre.image((Loader.boom[cptAnim]), x - decalage , y - decalage);
+		fenetre.image((this.loader.getBoom()[cptAnim]), x - decalage , y - decalage);
 		
 		cptAnim++;
 		
-		if(cptAnim == Loader.boom.length){
+		if(cptAnim == this.loader.getBoom().length){
 			fini = true;
 		}
 		

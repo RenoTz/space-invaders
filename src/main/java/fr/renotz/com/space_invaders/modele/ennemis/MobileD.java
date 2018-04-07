@@ -52,7 +52,7 @@ public class MobileD implements IMobile{
 			ITirs ta = new TirAlien2(f, new Position(position.getXpix()+10,position.getYpix()), false,75);
 			IVueTirs vta = new vueTirHard(f,ta);
 			Tir jta = new Tir(ta,vta);
-			Play.projectilesA.add(jta);					
+			f.getProjectilesA().add(jta);					
 		}	
 		
 		if(rand > 1000)

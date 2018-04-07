@@ -49,7 +49,7 @@ public class MobileA implements IMobile {
 			ITirs ta = new TirAlien2(f, new Position(x+18,y), false, 50);
 			IVueTirs vta = new vueTirNormal(f,ta);
 			Tir jta = new Tir(ta,vta);
-			Play.projectilesA.add(jta);					
+			f.getProjectilesA().add(jta);					
 		}		
 	}
 	
@@ -85,7 +85,6 @@ public class MobileA implements IMobile {
 
 	@Override
 	public boolean collisionA(JTir tirs) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

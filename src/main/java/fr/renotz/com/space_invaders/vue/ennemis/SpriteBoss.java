@@ -12,9 +12,11 @@ public class SpriteBoss extends ASprite{
 	private int cptAnim = 0,decalage = 20;
 	PImage spriteBoss;
 	private boolean fini = false;
+	private Loader loader;
 	
-	public SpriteBoss(PApplet fenetre, IMobile mobile) {
+	public SpriteBoss(Loader loader, PApplet fenetre, IMobile mobile) {
 		super(fenetre, mobile);
+		this.loader = loader;
 		spriteBoss = fenetre.loadImage("../images/boss.png");
 		spriteBoss.resize(250,0);
 		
@@ -37,12 +39,12 @@ public class SpriteBoss extends ASprite{
 		int x = v.getPosition().getXpix();
 		int y = v.getPosition().getYpix();
 		
-		Loader.boom[cptAnim].resize(250,0);
-		fenetre.image((Loader.boom[cptAnim]), x , y - decalage);
+		this.loader.getBoom()[cptAnim].resize(250,0);
+		fenetre.image((this.loader.getBoom()[cptAnim]), x , y - decalage);
 		
 		cptAnim++;
 		
-		if(cptAnim == Loader.boom.length){
+		if(cptAnim == this.loader.getBoom().length){
 			cptAnim = 0;
 			fini = true;
 		}

@@ -14,6 +14,7 @@ import fr.renotz.com.space_invaders.vueTirs.joueur.vueTirJoueur2;
 
 
 public class Joueur implements IMobile{
+	
 	static Position position;
 	Play f;
 	ITirs t;
@@ -116,7 +117,7 @@ public class Joueur implements IMobile{
 		else
 			intervalle = 100;
 		if(System.currentTimeMillis()-dateDernierTir > intervalle){			
-			Play.projectilesJ.add(jt);
+			f.getProjectilesJ().add(jt);
 			dateDernierTir = System.currentTimeMillis();
 		}	
 	}
