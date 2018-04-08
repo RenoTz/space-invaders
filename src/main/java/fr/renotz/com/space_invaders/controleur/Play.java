@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import fr.renotz.com.space_invaders.config.ConstantesJeu;
 import fr.renotz.com.space_invaders.modele.ennemis.Boss;
 import fr.renotz.com.space_invaders.modele.joueur.Joueur;
 import fr.renotz.com.space_invaders.tirsGraphiques.JTir;
@@ -30,7 +31,7 @@ public class Play extends PApplet{
 		this.loader = new Loader(this);
 		this.setInterfaceJeu(loader.getInterfaceJeu());
 		this.frameRate(60);
-		this.fond=loadImage("../../../src/main/ressources/images/universFond.jpg");
+		this.fond= loadImage(ConstantesJeu.NOM_IMG_FOND);
 		// init des listes et des attributs
 		this.projectilesJ = Lists.newArrayList();
 		this.projectilesA = Lists.newArrayList();
@@ -42,8 +43,7 @@ public class Play extends PApplet{
 
 	public void draw(){
 		// fond
-		image(fond,0,0);
-		
+//		image(fond,0,0);
 		
 		if(!isPause()){
 			// Listes des tirs et des vaisseaux qui seront d�truits 
