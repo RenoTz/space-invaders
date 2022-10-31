@@ -1,192 +1,161 @@
 package game.spaceinvaders;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import game.spaceinvaders.controller.InterfaceJeu;
 import game.spaceinvaders.controller.Loader;
-import game.spaceinvaders.tirsGraphiques.JTir;
-import game.spaceinvaders.vaisseauxGraphiques.AVaisseau;
+import game.spaceinvaders.model.bouclier.Bouclier;
+import game.spaceinvaders.model.ennemis.MobileA;
+import game.spaceinvaders.model.ennemis.MobileB;
+import game.spaceinvaders.model.ennemis.MobileC;
+import game.spaceinvaders.model.ennemis.MobileD;
+import game.spaceinvaders.controller.SpaceShip;
+import game.spaceinvaders.tirs.Tir;
 import game.spaceinvaders.utils.FileUtils;
-import game.spaceinvaders.model.ennemis.Boss;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Controller extends PApplet {
 
-    PImage fond;
-    InterfaceJeu interfaceJeu;
+    private PImage fond;
+    private Loader loader;
 
-    public Loader getLoader() {
-        return loader;
-    }
-
-    Loader loader;
-    boolean pause = false;
+    private boolean pause;
     private int cpt = 0;
-    public ArrayList<JTir> projectilesJ;
+    private long bip = 0;
+    private List<Tir> projectilesJ;
+    private List<Tir> projectilesA;
+    private List<SpaceShip> spaceShipsToBlast;
+    private List<SpaceShip> spaceShipsToDestroy;
+    private List<Tir> shotsToDestroy;
 
-    public ArrayList<JTir> projectilesA;
-    public ArrayList<AVaisseau> vExplosion;
-    long bip = 0;
-
+    @Override
     public void setup() {
         projectilesJ = new ArrayList<>();
         projectilesA = new ArrayList<>();
-        vExplosion = new ArrayList<>();
-        // fenetre
-        loader = new Loader(this);
-        printGameInfo();
-        frameRate(60);
-        fond = loadImage(FileUtils.getImagePath("universFond.jpg", getClass()));
+        spaceShipsToBlast = new ArrayList<>();
+        spaceShipsToDestroy = new ArrayList<>();
+        shotsToDestroy = new ArrayList<>();
+        // setup
+        try {
+            loader = new Loader(this);
+            printGameInfo();
+            frameRate(60);
+            fond = loadImage(FileUtils.getImagePath("universFond.jpg", getClass()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void printGameInfo() {
-        long ennemies = loader.getSpaceShips().stream().filter(aVaisseau -> !(aVaisseau.getMobile() instanceof Boss)).count();
-        long boss = loader.getSpaceShips().stream().filter(aVaisseau -> aVaisseau.getMobile() instanceof Boss).count();
-
-        System.out.printf("il y a %d vaisseaux ennemis%n", ennemies);
-        System.out.printf("il y a %d boss%n", boss);
+        long enemies = loader.getSpaceShips().stream().filter(aVaisseau -> !(aVaisseau.getMobile() instanceof Bouclier)).count();
+        System.out.println(String.format("il y a %d vaisseaux ennemis", enemies));
+        long shields = loader.getSpaceShips().stream().filter(spaceship -> spaceship.getMobile() instanceof Bouclier).count();
+        System.out.println(String.format("il y a %d boucliers", shields));
     }
 
+    @Override
     public void settings() {
         size(1280, 800);
     }
 
+    @Override
     public void draw() {
         // fond
         image(fond, 0, 0);
 
-
         if (!isPause()) {
-            // Listes des tirs et des vaisseaux qui seront d�truits
-            ArrayList<JTir> tirDetruit = new ArrayList<>();
-            ArrayList<AVaisseau> vaisseauDetruit = new ArrayList<>();
-            // D�claration liste des tirs Aliens � d�truire
-            ArrayList<JTir> tirADetruit = new ArrayList<>();
-            // vaisseaux : deplacement et dessin
-            for (AVaisseau v : loader.getSpaceShips()) {
-                if (!v.isFini()) {
-                    v.move();
-                    v.draw();
+            // spaceships
+            for (SpaceShip spaceShip : loader.getSpaceShips()) {
+                if (!spaceShip.isFini()) {
+                    try {
+                        spaceShip.move();
+                        spaceShip.draw();
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 // Si collision --> ajout vaisseau et tir aux listes respectives
-                for (JTir t : projectilesJ) {
+                for (Tir t : projectilesJ) {
                     loader.getBoss().setTouche(false);
-                    if (v.collisionJ(t)) {
-                        tirDetruit.add(t);
-                        vaisseauDetruit.add(v);
-                        vExplosion.add(v);
+                    if (spaceShip.collisionJ(t)) {
+                        addDestroyLists(spaceShip, t);
                         break;
                     }
                     if (loader.getBoss().isTouche()) {
-                        tirDetruit.add(t);
+                        shotsToDestroy.add(t);
                         break;
                     }
                 }
                 // Si collision --> ajout vaisseau et tir aux listes respectives
-                for (JTir t : projectilesA) {
-                    if (v.collisionA(t)) {
-                        tirADetruit.add(t);
-                        vaisseauDetruit.add(v);
-                        vExplosion.add(v);
+                for (Tir shot : projectilesA) {
+                    if (spaceShip.collisionA(shot)) {
+                        addDestroyLists(spaceShip, shot);
                         break;
                     }
-                    if (!loader.getPlayer().isGameOver()) {
-                        if (loader.getPlayer().isTouche())
-                            tirADetruit.add(t);
+                    if (!loader.getPlayer().isGameOver() && loader.getPlayer().isTouche()) {
+                        shotsToDestroy.add(shot);
                     }
                 }
             }
 
             // Dessins et d�placements des tirs du Joueur
-            for (JTir t : projectilesJ) {
+            for (Tir t : projectilesJ) {
                 // Si tir hors �cran : ajout liste tirD�truit
-                if (t.isDetruit())
-                    tirDetruit.add(t);
+                if (t.isDetruit()) {
+                    shotsToDestroy.add(t);
+                }
                 t.move();
                 t.draw();
-
             }
 
             // Dessins et d�placements des tirs des Aliens
-            for (JTir t : projectilesA) {
+            for (Tir t : projectilesA) {
                 // Si tir hors �cran : ajout liste tirD�truit
-                if (t.isDetruit())
-                    tirADetruit.add(t);
+                if (t.isDetruit()) {
+                    shotsToDestroy.add(t);
+                }
                 t.move();
                 t.draw();
             }
 
-            // Suppression tirs Joueur
-            for (JTir td : tirDetruit) {
-                destructionTir(td, projectilesJ);
-            }
-
-            // Suppression tirs Aliens
-            for (JTir td : tirADetruit) {
-                destructionTir(td, projectilesA);
-            }
-
-            // Suppression vaisseaux d�truits et modifications du score total
-            for (AVaisseau v : vaisseauDetruit) {
-                loader.getInterfaceJeu().setScore(v.getPoints());
-                destructionVaisseau(v, loader.getSpaceShips());
-            }
+            // Suppression tirs
+            projectilesJ.removeAll(shotsToDestroy);
+            projectilesA.removeAll(shotsToDestroy);
 
             // display animation explosion
-            for (AVaisseau v : vExplosion) {
+            for (SpaceShip v : spaceShipsToBlast) {
                 if (!v.isFini()) {
                     v.explosion(v);
                 } else {
-                    vaisseauDetruit.add(v);
+                    spaceShipsToDestroy.add(v);
                 }
             }
 
+            // Suppression vaisseaux d�truits et modifications du score total
+            loader.getSpaceShips().removeAll(spaceShipsToDestroy);
+
             // Add BOSS to spaceships
-            if (loader.getInterfaceJeu().getScore() == 4750 && !loader.getBoss().isBossStarted()) {
+            if (loader.getGameInterface().getScore() == 4750 && !loader.getBoss().isBossStarted()) {
                 loader.getBoss().setBossStarted(true);
                 loader.getSpaceShips().add(loader.getVBoss());
             }
 
         } else {
-            for (AVaisseau v : loader.getSpaceShips()) {
-                v.draw();
-            }
+            loader.getSpaceShips().forEach(SpaceShip::draw);
         }
         // display du cadre
-        loader.getInterfaceJeu().show();
+        loader.getGameInterface().show();
     }
 
-    /****************************************************************
-     *  La m�thode suivante parcourt la liste des tirs � d�truire   *
-     *    - Si le tir dans la liste � d�truire correspond � un tir  *
-     *      de la liste des tirs cr��s :                             *
-     *		==> Suppression du tir                                  *
-     ****************************************************************/
-    public void destructionTir(JTir tDetruit, ArrayList<JTir> list) {
-        for (JTir t : list) {
-            if (t.equals(tDetruit)) {
-                list.remove(t);
-                break;
-            }
-
-        }
-    }
-
-    /******************************************************************
-     * La m�thode suivante parcourt la liste des vaisseaux � d�truire *
-     *    - Si le vaisseau dans la liste � d�truire correspond � un   *
-     *      vaisseau de la liste des vaisseaux cr��s :                *
-     *		==> Suppression du vaisseau                               *
-     ******************************************************************/
-    public void destructionVaisseau(AVaisseau vDetruit, ArrayList<AVaisseau> list) {
-        for (AVaisseau v : list) {
-            if (v.equals(vDetruit)) {
-                list.remove(v);
-                break;
-            }
-
+    private void addDestroyLists(SpaceShip spaceShip, Tir shot) {
+        shotsToDestroy.add(shot);
+        spaceShipsToDestroy.add(spaceShip);
+        spaceShipsToBlast.add(spaceShip);
+        if (spaceShip.getMobile() instanceof MobileA || spaceShip.getMobile() instanceof MobileB || spaceShip.getMobile() instanceof MobileC || spaceShip.getMobile() instanceof MobileD) {
+            loader.getGameInterface().setScore(spaceShip.getPoints());
         }
     }
 
@@ -203,7 +172,7 @@ public class Controller extends PApplet {
 
     }
 
-    static public void main(String[] passedArgs) {
+    public static void main(String[] passedArgs) {
         String[] appletArgs = new String[]{Controller.class.getName()};
         if (Arrays.asList(passedArgs).isEmpty()) {
             PApplet.main(appletArgs);
@@ -212,12 +181,16 @@ public class Controller extends PApplet {
         }
     }
 
-    public ArrayList<JTir> getProjectilesJ() {
+    public List<Tir> getProjectilesJ() {
         return projectilesJ;
     }
 
-    public ArrayList<JTir> getProjectilesA() {
+    public List<Tir> getProjectilesA() {
         return projectilesA;
+    }
+
+    public Loader getLoader() {
+        return loader;
     }
 
 }

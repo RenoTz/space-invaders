@@ -1,20 +1,17 @@
 package game.spaceinvaders.tirs.ennemis;
 
-import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.tirs.ITirs;
-import game.spaceinvaders.tirsGraphiques.JTir;
+import game.spaceinvaders.tirs.Tir;
 
 public class TirBoss implements ITirs {
 	
 	int depy = 12;
 	Position position;
-	Controller f;
 	boolean detruit,collision;
 	int pointsTirs;
 
-	public TirBoss(Controller f, Position position, boolean detruit, int pointsTirs){
-		this.f = f;
+	public TirBoss(Position position, boolean detruit, int pointsTirs){
 		this.position = position;
 		this.detruit = detruit;
 		this.pointsTirs=pointsTirs;
@@ -22,13 +19,10 @@ public class TirBoss implements ITirs {
 
 	@Override
 	public void move() {
-		
 		int x = position.getXpix();
 		int y = position.getYpix();
-		
 		position.setXpix(x);
 		position.setYpix(y + depy);
-		
 	}
 
 	@Override
@@ -48,13 +42,12 @@ public class TirBoss implements ITirs {
 	}
 
 	@Override
-	public boolean hit(JTir t) {
+	public boolean hit(Tir t) {
 		return collision;
 	}
 
 	@Override
 	public int getPointTirs() {
-		// TODO Auto-generated method stub
 		return pointsTirs;
 	}
 

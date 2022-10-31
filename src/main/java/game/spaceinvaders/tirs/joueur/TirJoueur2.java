@@ -3,7 +3,7 @@ package game.spaceinvaders.tirs.joueur;
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.tirs.ITirs;
-import game.spaceinvaders.tirsGraphiques.JTir;
+import game.spaceinvaders.tirs.Tir;
 
 public class TirJoueur2 implements ITirs {
 
@@ -47,7 +47,7 @@ public class TirJoueur2 implements ITirs {
 	}
 
 	@Override
-	public boolean hit(JTir t) {
+	public boolean hit(Tir t) {
 		return collision;
 	}
 

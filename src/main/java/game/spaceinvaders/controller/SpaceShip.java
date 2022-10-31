@@ -1,11 +1,13 @@
-package game.spaceinvaders.vaisseauxGraphiques;
+package game.spaceinvaders.controller;
 
-import game.spaceinvaders.vue.IVue;
-import game.spaceinvaders.tirsGraphiques.JTir;
+import game.spaceinvaders.tirs.Tir;
+import game.spaceinvaders.view.model.IVue;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
 
-public class Vaisseau extends AVaisseau {
+import java.security.NoSuchAlgorithmException;
+
+public class SpaceShip implements IVue, IMobile {
 
 	@Override
 	public IMobile getMobile() {
@@ -15,13 +17,13 @@ public class Vaisseau extends AVaisseau {
 	IMobile mobile;
 	IVue vue;
 	
-	public Vaisseau(IMobile mobile, IVue vue){
+	public SpaceShip(IMobile mobile, IVue vue){
 		this.mobile=mobile;
 		this.vue=vue;
 	}
 	
 	@Override
-	public void move() {
+	public void move() throws NoSuchAlgorithmException {
 		mobile.move();
 	}
 
@@ -41,13 +43,13 @@ public class Vaisseau extends AVaisseau {
 	}
 
 	@Override
-	public boolean collisionJ(JTir tirs) {
-		return mobile.collisionJ(tirs);
+	public boolean collisionJ(Tir tir) {
+		return mobile.collisionJ(tir);
 	}
 	
 	@Override 
-	public boolean collisionA(JTir tirs) {
-		return mobile.collisionA(tirs);
+	public boolean collisionA(Tir tir) {
+		return mobile.collisionA(tir);
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class Vaisseau extends AVaisseau {
 	}
 
 	@Override
-	public void explosion(AVaisseau v) {
+	public void explosion(SpaceShip v) {
 		vue.explosion(v);	
 	}
 	

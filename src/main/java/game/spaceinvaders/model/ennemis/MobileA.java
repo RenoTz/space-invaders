@@ -1,13 +1,14 @@
 package game.spaceinvaders.model.ennemis;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.tirs.ITirs;
-import game.spaceinvaders.tirsGraphiques.JTir;
-import game.spaceinvaders.tirsGraphiques.Tir;
-import game.spaceinvaders.vueTirs.IVueTirs;
-import game.spaceinvaders.vueTirs.ennemis.vueTirNormal;
+import game.spaceinvaders.tirs.Tir;
+import game.spaceinvaders.view.shots.IVueTir;
+import game.spaceinvaders.view.shots.vueTirNormal;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.tirs.ennemis.TirAlien2;
@@ -18,15 +19,14 @@ public class MobileA implements IMobile {
     int rayon = 100;
     int points;
     Position position;
-    Controller f;
+    Controller controller;
     private int rand;
     boolean collision;
 
-    public MobileA(Controller f, double t, Position position, boolean collision, int points) {
-        this.f = f;
+    public MobileA(Controller controller, double t, Position position, int points) throws NoSuchAlgorithmException {
+        this.controller = controller;
         this.t = t;
         this.position = position;
-        this.collision = collision;
         this.points = points;
         random();
     }
@@ -44,10 +44,10 @@ public class MobileA implements IMobile {
 
 
         if (rand > 1000) {
-            ITirs ta = new TirAlien2(f, new Position(x + 18, y), false, 50);
-            IVueTirs vta = new vueTirNormal(f, ta);
+            ITirs ta = new TirAlien2(new Position(x + 18, y), false, 50);
+            IVueTir vta = new vueTirNormal(controller, ta);
             Tir jta = new Tir(ta, vta);
-            f.getProjectilesA().add(jta);
+            controller.getProjectilesA().add(jta);
         }
     }
 
@@ -61,9 +61,9 @@ public class MobileA implements IMobile {
         return this;
     }
 
-    public void random() {
-        Random rand = new Random();
-        setR(rand.nextInt(1000));
+    public void random() throws NoSuchAlgorithmException {
+        Random random = SecureRandom.getInstanceStrong();
+        setR(random.nextInt(1000));
     }
 
     public void setR(int rand) {
@@ -78,16 +78,16 @@ public class MobileA implements IMobile {
     }
 
     @Override
-    public boolean collisionJ(JTir tirs) {
-        if ((tirs.getPosition().getXpix() > getPosition().getXpix()) && (tirs.getPosition().getXpix() < getPosition().getXpix() + 40)
-                && (tirs.getPosition().getYpix() < getPosition().getYpix() + 40) && (tirs.getPosition().getYpix() > getPosition().getYpix())) {
+    public boolean collisionJ(Tir tir) {
+        if ((tir.getPosition().getXpix() > getPosition().getXpix()) && (tir.getPosition().getXpix() < getPosition().getXpix() + 40)
+                && (tir.getPosition().getYpix() < getPosition().getYpix() + 40) && (tir.getPosition().getYpix() > getPosition().getYpix())) {
             collision = true;
         }
         return collision;
     }
 
     @Override
-    public boolean collisionA(JTir tirs) {
+    public boolean collisionA(Tir tir) {
         return false;
     }
 

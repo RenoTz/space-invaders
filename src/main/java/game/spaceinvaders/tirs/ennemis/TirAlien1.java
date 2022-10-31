@@ -1,20 +1,17 @@
 package game.spaceinvaders.tirs.ennemis;
 
-import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.tirs.ITirs;
-import game.spaceinvaders.tirsGraphiques.JTir;
+import game.spaceinvaders.tirs.Tir;
 
 public class TirAlien1 implements ITirs {
 
 	int depy = 7;
 	Position position;
-	Controller f;
 	boolean detruit,collision;
 	int pointsTirs;
 
-	public TirAlien1(Controller f, Position position, boolean detruit, int pointsTirs){
-		this.f = f;
+	public TirAlien1(Position position, boolean detruit, int pointsTirs){
 		this.position = position;
 		this.detruit = detruit;
 		this.pointsTirs=pointsTirs;
@@ -47,7 +44,7 @@ public class TirAlien1 implements ITirs {
 	}
 
 	@Override
-	public boolean hit(JTir t) {
+	public boolean hit(Tir t) {
 		// TODO Auto-generated method stub
 		return collision;
 	}

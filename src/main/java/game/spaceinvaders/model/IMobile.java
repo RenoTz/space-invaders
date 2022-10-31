@@ -1,14 +1,16 @@
 package game.spaceinvaders.model;
 
-import game.spaceinvaders.tirsGraphiques.JTir;
+import game.spaceinvaders.tirs.Tir;
+
+import java.security.NoSuchAlgorithmException;
 
 public interface IMobile {
 	Position getPosition();
 	IMobile getMobile();
-	void move();
+	void move() throws NoSuchAlgorithmException;
 	int getR();
-	boolean collisionA(JTir tirs);
-	boolean collisionJ(JTir tirs);
+	boolean collisionA(Tir tir);
+	boolean collisionJ(Tir tir);
 	int getPoints();
 	boolean isBossStarted();
 	void setBossStarted(boolean bossStarted);

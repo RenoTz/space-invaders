@@ -1,17 +1,16 @@
 package game.spaceinvaders.model.bouclier;
 
-import game.spaceinvaders.tirsGraphiques.JTir;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
+import game.spaceinvaders.tirs.Tir;
 
 public class Bouclier implements IMobile {
 
     Position position;
     boolean collision;
 
-    public Bouclier(Position position, boolean collision) {
+    public Bouclier(Position position) {
         this.position = position;
-        this.collision = collision;
     }
 
     @Override
@@ -34,17 +33,17 @@ public class Bouclier implements IMobile {
     }
 
     @Override
-    public boolean collisionJ(JTir tirs) {
-        if ((tirs.getPosition().getXpix() > getPosition().getXpix()) && (tirs.getPosition().getXpix() < getPosition().getXpix() + 20)
-                && (tirs.getPosition().getYpix() < getPosition().getYpix() + 20) && (tirs.getPosition().getYpix() > getPosition().getYpix()))
+    public boolean collisionJ(Tir tir) {
+        if ((tir.getPosition().getXpix() > getPosition().getXpix()) && (tir.getPosition().getXpix() < getPosition().getXpix() + 20)
+                && (tir.getPosition().getYpix() < getPosition().getYpix() + 20) && (tir.getPosition().getYpix() > getPosition().getYpix()))
             collision = true;
         return collision;
     }
 
     @Override
-    public boolean collisionA(JTir tirs) {
-        if ((tirs.getPosition().getXpix() > getPosition().getXpix()) && (tirs.getPosition().getXpix() < getPosition().getXpix() + 20)
-                && (tirs.getPosition().getYpix() + 20 < getPosition().getYpix() + 20) && (tirs.getPosition().getYpix() + 20 > getPosition().getYpix()))
+    public boolean collisionA(Tir tir) {
+        if ((tir.getPosition().getXpix() > getPosition().getXpix()) && (tir.getPosition().getXpix() < getPosition().getXpix() + 20)
+                && (tir.getPosition().getYpix() + 20 < getPosition().getYpix() + 20) && (tir.getPosition().getYpix() + 20 > getPosition().getYpix()))
             collision = true;
         return collision;
     }

@@ -3,11 +3,10 @@ package game.spaceinvaders.model.joueur;
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.tirs.ITirs;
-import game.spaceinvaders.tirsGraphiques.JTir;
-import game.spaceinvaders.tirsGraphiques.Tir;
-import game.spaceinvaders.vueTirs.IVueTirs;
-import game.spaceinvaders.vueTirs.joueur.vueTirJoueur1;
-import game.spaceinvaders.vueTirs.joueur.vueTirJoueur2;
+import game.spaceinvaders.tirs.Tir;
+import game.spaceinvaders.view.shots.IVueTir;
+import game.spaceinvaders.view.shots.vueTirJoueur1;
+import game.spaceinvaders.view.shots.vueTirJoueur2;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.tirs.joueur.TirJoueur1;
 import game.spaceinvaders.tirs.joueur.TirJoueur2;
@@ -15,24 +14,21 @@ import game.spaceinvaders.tirs.joueur.TirJoueur2;
 
 public class Player implements IMobile {
 
-    private Position position;
-    private Controller f;
-    private ITirs t;
-    private IVueTirs vt;
+    private final Position position;
+    private final Controller controller;
     boolean collision;
-    boolean gameOver = false, touche = false;
+    boolean gameOver, touche;
     private int depx = 7;
     private int vie;
     private int dir = 0, cptTirs = 0, cpt = 0;
-    private long interval = 100;
+    private long range = 100;
     private long dateDernierTir = 0;
     private long bip = 0;
 
-    public Player(Controller f, Position position, int vie, boolean collision) {
-        this.f = f;
+    public Player(Controller controller, Position position, int vie) {
+        this.controller = controller;
         this.position = position;
         this.vie = vie;
-        this.collision = collision;
     }
 
 
@@ -42,28 +38,28 @@ public class Player implements IMobile {
         int x = position.getXpix();
         int y = position.getYpix();
 
-        if (f.keyPressed) {
-            if (f.key == 'q' && x > 0) {
+        if (controller.keyPressed) {
+            if (controller.key == 'q' && x > 0) {
                 position.setXpix(x - depx);
                 dir = -depx;
             }
-            if (f.key == 'd' && x < 1220) {
+            if (controller.key == 'd' && x < 1220) {
                 position.setXpix(x + depx);
                 dir = depx;
             }
 
         } else
             dir = 0;
-        if (f.keyPressed) {
-            if (f.key == 'z') {
+        if (controller.keyPressed) {
+            if (controller.key == 'z') {
                 if (cptTirs % 2 > 0)
                     tir(typeTir2(x, y));
                 else
                     tir(typeTir1(x, y));
             }
         }
-        if (f.keyPressed) {
-            if (f.key == 's') {
+        if (controller.keyPressed) {
+            if (controller.key == 's') {
                 if (System.currentTimeMillis() > bip + 500) {
                     bip = System.currentTimeMillis();
                     cptTirs++;
@@ -72,7 +68,7 @@ public class Player implements IMobile {
                     else
                         typeTir1(x, y);
                 }
-                f.key = ' ';
+                controller.key = ' ';
             }
         }
 
@@ -95,8 +91,8 @@ public class Player implements IMobile {
 
     protected Tir typeTir1(int x, int y) {
 
-        ITirs t = new TirJoueur1(f, 0.52, new Position(x + 35, y), false, 50);
-        IVueTirs vt = new vueTirJoueur1(f, t);
+        ITirs t = new TirJoueur1(controller, 0.52, new Position(x + 35, y), false, 50);
+        IVueTir vt = new vueTirJoueur1(controller, t);
         Tir jt = new Tir(t, vt);
 
         return jt;
@@ -108,20 +104,19 @@ public class Player implements IMobile {
     }
 
     protected Tir typeTir2(int x, int y) {
-        ITirs t = new TirJoueur2(f, new Position(x + 35, y), false, 75);
-        IVueTirs vt = new vueTirJoueur2(f, t);
-        Tir jt = new Tir(t, vt);
+        ITirs t = new TirJoueur2(controller, new Position(x + 35, y), false, 75);
+        IVueTir vt = new vueTirJoueur2(controller, t);
 
-        return jt;
+        return new Tir(t, vt);
     }
 
     protected void tir(Tir jt) {
         if (cptTirs % 2 > 0)
-            interval = 500;
+            range = 500;
         else
-            interval = 100;
-        if (System.currentTimeMillis() - dateDernierTir > interval) {
-            f.getProjectilesJ().add(jt);
+            range = 100;
+        if (System.currentTimeMillis() - dateDernierTir > range) {
+            controller.getProjectilesJ().add(jt);
             dateDernierTir = System.currentTimeMillis();
         }
     }
@@ -132,18 +127,17 @@ public class Player implements IMobile {
     }
 
     @Override
-    public boolean collisionJ(JTir tirs) {
-        // PAS DE COLLISIONS AVEC SES PROPRES TIRS
+    public boolean collisionJ(Tir tir) {
         return false;
     }
 
     @Override
-    public boolean collisionA(JTir tirs) {
+    public boolean collisionA(Tir tir) {
 
         touche = false;
-        if ((tirs.getPosition().getXpix() > getPosition().getXpix()) && (tirs.getPosition().getXpix() < getPosition().getXpix() + 55)
-                && (tirs.getPosition().getYpix() < getPosition().getYpix() + 50) && (tirs.getPosition().getYpix() > getPosition().getYpix())) {
-            setVie(tirs.getPointTirs());
+        if ((tir.getPosition().getXpix() > getPosition().getXpix()) && (tir.getPosition().getXpix() < getPosition().getXpix() + 55)
+                && (tir.getPosition().getYpix() < getPosition().getYpix() + 50) && (tir.getPosition().getYpix() > getPosition().getYpix())) {
+            setVie(tir.getPointTirs());
             touche = true;
             if (getVie() == 0) {
                 collision = true;
@@ -185,7 +179,6 @@ public class Player implements IMobile {
 
     }
 
-
     public int getVie() {
         return vie;
     }
@@ -194,7 +187,6 @@ public class Player implements IMobile {
     public void setTouche(boolean touche) {
 
     }
-
 
     public void setVie(int points) {
         if (vie - points > 0)
