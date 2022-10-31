@@ -1,18 +1,13 @@
 package game.spaceinvaders.controller;
 
-import game.spaceinvaders.tirs.Tir;
-import game.spaceinvaders.view.model.IVue;
+import game.spaceinvaders.model.shots.Tir;
+import game.spaceinvaders.view.IVue;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
 
 import java.security.NoSuchAlgorithmException;
 
 public class SpaceShip implements IVue, IMobile {
-
-	@Override
-	public IMobile getMobile() {
-		return mobile;
-	}
 
 	IMobile mobile;
 	IVue vue;
@@ -100,6 +95,16 @@ public class SpaceShip implements IVue, IMobile {
 	@Override
 	public void setFini(boolean fini) {
 		vue.setFini(fini);
+	}
+
+	@Override
+	public IMobile getMobile() {
+		return mobile;
+	}
+
+	@Override
+	public boolean isDestructible() {
+		return mobile.isDestructible();
 	}
 
 }

@@ -1,9 +1,9 @@
 package game.spaceinvaders.view.shots;
 
 import game.spaceinvaders.Controller;
-import game.spaceinvaders.tirs.ITirs;
+import game.spaceinvaders.model.shots.ITirs;
 import game.spaceinvaders.utils.FileUtils;
-import game.spaceinvaders.view.model.TSprite;
+import game.spaceinvaders.view.TSprite;
 
 public class vueTirJoueur1 extends TSprite {
 

@@ -1,6 +1,6 @@
 package game.spaceinvaders.model;
 
-import game.spaceinvaders.tirs.Tir;
+import game.spaceinvaders.model.shots.Tir;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -18,5 +18,6 @@ public interface IMobile {
 	boolean isCollision();
 	int getVie();
 	void setTouche(boolean touche);
+	boolean isDestructible();
 
 }

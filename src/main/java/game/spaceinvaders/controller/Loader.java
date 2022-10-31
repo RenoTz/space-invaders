@@ -5,23 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.spaceinvaders.Controller;
-import game.spaceinvaders.view.model.IVue;
-import game.spaceinvaders.view.model.bouclier.SpriteBouclier;
-import game.spaceinvaders.view.model.ennemis.SpriteA;
-import game.spaceinvaders.view.model.ennemis.SpriteB;
-import game.spaceinvaders.view.model.ennemis.SpriteBoss;
-import game.spaceinvaders.view.model.ennemis.SpriteC;
-import game.spaceinvaders.view.model.joueur.SpritePlayer;
+import game.spaceinvaders.view.IVue;
+import game.spaceinvaders.view.shield.SpriteBouclier;
+import game.spaceinvaders.view.enemies.SpriteA;
+import game.spaceinvaders.view.enemies.SpriteB;
+import game.spaceinvaders.view.enemies.SpriteBoss;
+import game.spaceinvaders.view.enemies.SpriteC;
+import game.spaceinvaders.view.player.SpritePlayer;
 import game.spaceinvaders.utils.FileUtils;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
-import game.spaceinvaders.model.bouclier.Bouclier;
-import game.spaceinvaders.model.ennemis.Boss;
-import game.spaceinvaders.model.ennemis.MobileA;
-import game.spaceinvaders.model.ennemis.MobileB;
-import game.spaceinvaders.model.ennemis.MobileC;
-import game.spaceinvaders.model.ennemis.MobileD;
-import game.spaceinvaders.model.joueur.Player;
+import game.spaceinvaders.model.shield.Bouclier;
+import game.spaceinvaders.model.spaceships.enemies.Boss;
+import game.spaceinvaders.model.spaceships.enemies.MobileA;
+import game.spaceinvaders.model.spaceships.enemies.MobileB;
+import game.spaceinvaders.model.spaceships.enemies.MobileC;
+import game.spaceinvaders.model.spaceships.enemies.MobileD;
+import game.spaceinvaders.model.spaceships.player.Player;
 import processing.core.PImage;
 
 

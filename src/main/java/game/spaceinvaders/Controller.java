@@ -1,13 +1,9 @@
 package game.spaceinvaders;
 
 import game.spaceinvaders.controller.Loader;
-import game.spaceinvaders.model.bouclier.Bouclier;
-import game.spaceinvaders.model.ennemis.MobileA;
-import game.spaceinvaders.model.ennemis.MobileB;
-import game.spaceinvaders.model.ennemis.MobileC;
-import game.spaceinvaders.model.ennemis.MobileD;
+import game.spaceinvaders.model.shield.Bouclier;
 import game.spaceinvaders.controller.SpaceShip;
-import game.spaceinvaders.tirs.Tir;
+import game.spaceinvaders.model.shots.Tir;
 import game.spaceinvaders.utils.FileUtils;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -154,7 +150,7 @@ public class Controller extends PApplet {
         shotsToDestroy.add(shot);
         spaceShipsToDestroy.add(spaceShip);
         spaceShipsToBlast.add(spaceShip);
-        if (spaceShip.getMobile() instanceof MobileA || spaceShip.getMobile() instanceof MobileB || spaceShip.getMobile() instanceof MobileC || spaceShip.getMobile() instanceof MobileD) {
+        if (spaceShip.getMobile().isDestructible()) {
             loader.getGameInterface().setScore(spaceShip.getPoints());
         }
     }
