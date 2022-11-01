@@ -9,7 +9,7 @@ public abstract class ASprite implements IVue {
     protected IMobile mobile;
     protected Controller controller;
 
-    protected static final int OFFSET = 40;
+    protected static final int OFFSET_DEFAULT = 40;
     protected static final long RANGE = 600;
 
     private int countAnimation = 0;
@@ -41,10 +41,10 @@ public abstract class ASprite implements IVue {
         int x = v.getPosition().getXpix();
         int y = v.getPosition().getYpix();
 
-        if (getSize() != 0) {
-            controller.getLoader().boom[countAnimation].resize(getSize(), 0);
+        if (getResize() != 0) {
+            controller.getLoader().boom[countAnimation].resize(getResize(), 0);
         }
-        controller.image(controller.getLoader().boom[countAnimation], x - OFFSET, y - OFFSET);
+        controller.image(controller.getLoader().boom[countAnimation], x - getOffset(), y - getOffset());
         countAnimation++;
 
         if (countAnimation == controller.getLoader().boom.length) {
@@ -65,6 +65,8 @@ public abstract class ASprite implements IVue {
 
     protected abstract PImage getSprite(int number);
 
-    protected abstract int getSize();
+    protected abstract int getResize();
+
+    protected abstract int getOffset();
 
 }

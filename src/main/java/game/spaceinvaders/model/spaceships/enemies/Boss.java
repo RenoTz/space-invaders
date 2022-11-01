@@ -7,8 +7,8 @@ import java.util.Random;
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.shots.ITirs;
 import game.spaceinvaders.model.shots.Tir;
-import game.spaceinvaders.view.shots.IVueTir;
-import game.spaceinvaders.view.shots.vueTirBoss;
+import game.spaceinvaders.view.shots.IViewShot;
+import game.spaceinvaders.view.shots.ViewShotBoss;
 import game.spaceinvaders.model.shots.enemies.TirBoss;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
@@ -50,18 +50,18 @@ public class Boss implements IMobile {
                 if (i > 0 && i < 4) {
                     if (i == 2) {
                         ITirs tb1 = new TirBoss(new Position(x + 55 + (35 * i), y + 140), false, 80);
-                        IVueTir vtb1 = new vueTirBoss(controller, tb1);
+                        IViewShot vtb1 = new ViewShotBoss(controller, tb1);
                         Tir jtb = new Tir(tb1, vtb1);
                         controller.getProjectilesA().add(jtb);
                     } else {
                         ITirs tb1 = new TirBoss(new Position(x + 55 + (35 * i), y + 120), false, 80);
-                        IVueTir vtb1 = new vueTirBoss(controller, tb1);
+                        IViewShot vtb1 = new ViewShotBoss(controller, tb1);
                         Tir jtb = new Tir(tb1, vtb1);
                         controller.getProjectilesA().add(jtb);
                     }
                 } else {
                     ITirs tb1 = new TirBoss(new Position(x + 62 + (31 * i), y + 40), false, 80);
-                    IVueTir vtb1 = new vueTirBoss(controller, tb1);
+                    IViewShot vtb1 = new ViewShotBoss(controller, tb1);
                     Tir jtb = new Tir(tb1, vtb1);
                     controller.getProjectilesA().add(jtb);
                 }

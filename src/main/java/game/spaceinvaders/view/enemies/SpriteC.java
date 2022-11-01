@@ -25,8 +25,13 @@ public class SpriteC extends ASprite {
     }
 
     @Override
-    protected int getSize() {
+    protected int getResize() {
         return 0;
+    }
+
+    @Override
+    protected int getOffset() {
+        return OFFSET_DEFAULT;
     }
 
 }

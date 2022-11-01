@@ -2,19 +2,20 @@ package game.spaceinvaders.model.shots.enemies;
 
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.model.shots.ITirs;
-import game.spaceinvaders.model.shots.Tir;
 
 public class TirAlien2 implements ITirs {
 
-    int depy = 5, rayon = 10;
-    double t = 0.0, gap = 0.05;
-    Position position;
-    boolean detruit, collision;
-    int pointsTirs;
+    private final Position position;
+    private boolean destroy;
+    private final int pointsTirs;
+    private final int depy = 5;
+    private final int rayon = 10;
+    private final double gap = 0.05;
+    private double t = 0.0;
 
-    public TirAlien2(Position position, boolean detruit, int pointsTirs) {
+    public TirAlien2(Position position, boolean destroy, int pointsTirs) {
         this.position = position;
-        this.detruit = detruit;
+        this.destroy = destroy;
         this.pointsTirs = pointsTirs;
     }
 
@@ -34,20 +35,15 @@ public class TirAlien2 implements ITirs {
     }
 
     @Override
-    public boolean isDetruit() {
+    public boolean isDestroy() {
         if (position.getYpix() > 800) {
-            setDetruit(true);
+            setDestroy(true);
         }
-        return detruit;
+        return destroy;
     }
 
-    public void setDetruit(boolean detruit) {
-        this.detruit = detruit;
-    }
-
-    @Override
-    public boolean hit(Tir t) {
-        return collision;
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
     }
 
     @Override

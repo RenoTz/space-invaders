@@ -8,12 +8,12 @@ import game.spaceinvaders.view.ASprite;
 
 public class SpriteBoss extends ASprite {
 
-    private final PImage spriteBoss;
+    private final PImage sprite;
 
     public SpriteBoss(Controller controller, IMobile mobile) {
         super(controller, mobile);
-        spriteBoss = controller.loadImage(FileUtils.getImagePath("boss.png", getClass()));
-        spriteBoss.resize(250, 0);
+        sprite = controller.loadImage(FileUtils.getImagePath("boss.png", getClass()));
+        sprite.resize(250, 0);
 
     }
 
@@ -21,17 +21,22 @@ public class SpriteBoss extends ASprite {
     public void draw() {
         int x = mobile.getPosition().getXpix();
         int y = mobile.getPosition().getYpix();
-        controller.image(spriteBoss, x, y);
+        controller.image(sprite, x, y);
     }
 
     @Override
     protected PImage getSprite(int number) {
-        return spriteBoss;
+        return sprite;
     }
 
     @Override
-    protected int getSize() {
+    protected int getResize() {
         return 250;
+    }
+
+    @Override
+    protected int getOffset() {
+        return OFFSET_DEFAULT;
     }
 
 }

@@ -6,8 +6,7 @@ public interface ITirs {
 	
 	void move();
 	Position getPosition();
-	boolean isDetruit();
-	boolean hit(Tir t);
+	boolean isDestroy();
 	int getPointTirs();
 
 }

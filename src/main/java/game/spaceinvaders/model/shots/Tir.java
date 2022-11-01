@@ -1,14 +1,14 @@
 package game.spaceinvaders.model.shots;
 
-import game.spaceinvaders.view.shots.IVueTir;
 import game.spaceinvaders.model.Position;
+import game.spaceinvaders.view.shots.IViewShot;
 
-public class Tir implements IVueTir, ITirs {
+public class Tir implements IViewShot, ITirs {
 
     private final ITirs tirs;
-    private final IVueTir vueTirs;
+    private final IViewShot vueTirs;
 
-    public Tir(ITirs tirs, IVueTir vueTirs) {
+    public Tir(ITirs tirs, IViewShot vueTirs) {
         this.tirs = tirs;
         this.vueTirs = vueTirs;
     }
@@ -26,17 +26,11 @@ public class Tir implements IVueTir, ITirs {
     @Override
     public Position getPosition() {
         return tirs.getPosition();
-
     }
 
     @Override
-    public boolean isDetruit() {
-        return tirs.isDetruit();
-    }
-
-    @Override
-    public boolean hit(Tir t) {
-        return tirs.hit(t);
+    public boolean isDestroy() {
+        return tirs.isDestroy();
     }
 
     @Override

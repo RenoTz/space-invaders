@@ -7,8 +7,8 @@ import java.util.Random;
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.shots.ITirs;
 import game.spaceinvaders.model.shots.Tir;
-import game.spaceinvaders.view.shots.IVueTir;
-import game.spaceinvaders.view.shots.vueTirNormal;
+import game.spaceinvaders.view.shots.IViewShot;
+import game.spaceinvaders.view.shots.ViewShotMedium;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.model.shots.enemies.TirAlien2;
@@ -45,7 +45,7 @@ public class MobileA implements IMobile {
 
         if (rand > 1000) {
             ITirs ta = new TirAlien2(new Position(x + 18, y), false, 50);
-            IVueTir vta = new vueTirNormal(controller, ta);
+            IViewShot vta = new ViewShotMedium(controller, ta);
             Tir jta = new Tir(ta, vta);
             controller.getProjectilesA().add(jta);
         }

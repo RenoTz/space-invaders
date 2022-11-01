@@ -4,12 +4,12 @@ import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.Position;
 import game.spaceinvaders.model.shots.ITirs;
 import game.spaceinvaders.model.shots.Tir;
-import game.spaceinvaders.view.shots.IVueTir;
-import game.spaceinvaders.view.shots.vueTirJoueur1;
-import game.spaceinvaders.view.shots.vueTirJoueur2;
+import game.spaceinvaders.view.shots.IViewShot;
+import game.spaceinvaders.view.shots.ViewShotPlayer1;
+import game.spaceinvaders.view.shots.ViewShotPlayer2;
 import game.spaceinvaders.model.IMobile;
-import game.spaceinvaders.model.shots.player.TirJoueur1;
-import game.spaceinvaders.model.shots.player.TirJoueur2;
+import game.spaceinvaders.model.shots.player.ShotPlayerA;
+import game.spaceinvaders.model.shots.player.ShotPlayerB;
 
 
 public class Player implements IMobile {
@@ -90,24 +90,19 @@ public class Player implements IMobile {
     }
 
     protected Tir typeTir1(int x, int y) {
+        ITirs t = new ShotPlayerA(new Position(x + 35, y), false, 50);
+        IViewShot vt = new ViewShotPlayer1(controller, t);
+        return new Tir(t, vt);
+    }
 
-        ITirs t = new TirJoueur1(controller, 0.52, new Position(x + 35, y), false, 50);
-        IVueTir vt = new vueTirJoueur1(controller, t);
-        Tir jt = new Tir(t, vt);
-
-        return jt;
-
+    protected Tir typeTir2(int x, int y) {
+        ITirs t = new ShotPlayerB(new Position(x + 35, y), false, 75);
+        IViewShot vt = new ViewShotPlayer2(controller, t);
+        return new Tir(t, vt);
     }
 
     public int getCptTirs() {
         return cptTirs;
-    }
-
-    protected Tir typeTir2(int x, int y) {
-        ITirs t = new TirJoueur2(controller, new Position(x + 35, y), false, 75);
-        IVueTir vt = new vueTirJoueur2(controller, t);
-
-        return new Tir(t, vt);
     }
 
     protected void tir(Tir jt) {

@@ -6,7 +6,7 @@ import java.util.List;
 
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.view.IVue;
-import game.spaceinvaders.view.shield.SpriteBouclier;
+import game.spaceinvaders.view.shield.SpriteShield;
 import game.spaceinvaders.view.enemies.SpriteA;
 import game.spaceinvaders.view.enemies.SpriteB;
 import game.spaceinvaders.view.enemies.SpriteBoss;
@@ -15,7 +15,7 @@ import game.spaceinvaders.view.player.SpritePlayer;
 import game.spaceinvaders.utils.FileUtils;
 import game.spaceinvaders.model.IMobile;
 import game.spaceinvaders.model.Position;
-import game.spaceinvaders.model.shield.Bouclier;
+import game.spaceinvaders.model.shield.Shield;
 import game.spaceinvaders.model.spaceships.enemies.Boss;
 import game.spaceinvaders.model.spaceships.enemies.MobileA;
 import game.spaceinvaders.model.spaceships.enemies.MobileB;
@@ -133,13 +133,13 @@ public class Loader {
         for (int n = 1; n < 6; n++) {
             for (int i = 0; i < 128; i++) {
                 if (n % 2 != 0) {
-                    IMobile b1 = new Bouclier(new Position(i * 10, 620 +(10 * n)));
-                    IVue bc = new SpriteBouclier(controller, b1);
+                    IMobile b1 = new Shield(new Position(i * 10, 620 +(10 * n)));
+                    IVue bc = new SpriteShield(controller, b1);
                     SpaceShip bcl = new SpaceShip(b1, bc);
                     spaceChips.add(bcl);
                 } else {
-                    IMobile b1 = new Bouclier(new Position(5 + (i * 10), 620 + (10 * n)));
-                    IVue bc = new SpriteBouclier(controller, b1);
+                    IMobile b1 = new Shield(new Position(5 + (i * 10), 620 + (10 * n)));
+                    IVue bc = new SpriteShield(controller, b1);
                     SpaceShip bcl = new SpaceShip(b1, bc);
                     spaceChips.add(bcl);
                 }

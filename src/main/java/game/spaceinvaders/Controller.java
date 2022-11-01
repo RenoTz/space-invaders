@@ -1,7 +1,7 @@
 package game.spaceinvaders;
 
 import game.spaceinvaders.controller.Loader;
-import game.spaceinvaders.model.shield.Bouclier;
+import game.spaceinvaders.model.shield.Shield;
 import game.spaceinvaders.controller.SpaceShip;
 import game.spaceinvaders.model.shots.Tir;
 import game.spaceinvaders.utils.FileUtils;
@@ -46,10 +46,10 @@ public class Controller extends PApplet {
     }
 
     private void printGameInfo() {
-        long enemies = loader.getSpaceShips().stream().filter(aVaisseau -> !(aVaisseau.getMobile() instanceof Bouclier)).count();
-        System.out.println(String.format("il y a %d vaisseaux ennemis", enemies));
-        long shields = loader.getSpaceShips().stream().filter(spaceship -> spaceship.getMobile() instanceof Bouclier).count();
-        System.out.println(String.format("il y a %d boucliers", shields));
+        long enemies = loader.getSpaceShips().stream().filter(aVaisseau -> !(aVaisseau.getMobile() instanceof Shield)).count();
+        System.out.println("il y a " + enemies + " vaisseaux ennemis");
+        long shields = loader.getSpaceShips().stream().filter(spaceship -> spaceship.getMobile() instanceof Shield).count();
+        System.out.println("il y a " + shields + " boucliers");
     }
 
     @Override
@@ -100,7 +100,7 @@ public class Controller extends PApplet {
             // Dessins et d�placements des tirs du Joueur
             for (Tir t : projectilesJ) {
                 // Si tir hors �cran : ajout liste tirD�truit
-                if (t.isDetruit()) {
+                if (t.isDestroy()) {
                     shotsToDestroy.add(t);
                 }
                 t.move();
@@ -110,7 +110,7 @@ public class Controller extends PApplet {
             // Dessins et d�placements des tirs des Aliens
             for (Tir t : projectilesA) {
                 // Si tir hors �cran : ajout liste tirD�truit
-                if (t.isDetruit()) {
+                if (t.isDestroy()) {
                     shotsToDestroy.add(t);
                 }
                 t.move();
@@ -120,6 +120,7 @@ public class Controller extends PApplet {
             // Suppression tirs
             projectilesJ.removeAll(shotsToDestroy);
             projectilesA.removeAll(shotsToDestroy);
+            shotsToDestroy.clear();
 
             // display animation explosion
             for (SpaceShip v : spaceShipsToBlast) {
@@ -132,6 +133,7 @@ public class Controller extends PApplet {
 
             // Suppression vaisseaux d�truits et modifications du score total
             loader.getSpaceShips().removeAll(spaceShipsToDestroy);
+            spaceShipsToDestroy.clear();
 
             // Add BOSS to spaceships
             if (loader.getGameInterface().getScore() == 4750 && !loader.getBoss().isBossStarted()) {
@@ -149,10 +151,15 @@ public class Controller extends PApplet {
     private void addDestroyLists(SpaceShip spaceShip, Tir shot) {
         shotsToDestroy.add(shot);
         spaceShipsToDestroy.add(spaceShip);
-        spaceShipsToBlast.add(spaceShip);
         if (spaceShip.getMobile().isDestructible()) {
+            spaceShipsToBlast.add(spaceShip);
             loader.getGameInterface().setScore(spaceShip.getPoints());
         }
+        System.out.println("projectilesJ.size = " + projectilesJ.size());
+        System.out.println("projectilesA.size = " + projectilesA.size());
+        System.out.println("shotsToDestroy.size = " + shotsToDestroy.size());
+        System.out.println("spaceShipsToDestroy.size = " + spaceShipsToDestroy.size());
+        System.out.println("spaceShipsToBlast.size = " + spaceShipsToBlast.size());
     }
 
     public boolean isPause() {
