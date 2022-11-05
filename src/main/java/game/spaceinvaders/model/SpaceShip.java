@@ -1,9 +1,7 @@
-package game.spaceinvaders.controller;
+package game.spaceinvaders.model;
 
 import game.spaceinvaders.model.shots.Tir;
 import game.spaceinvaders.view.IVue;
-import game.spaceinvaders.model.IMobile;
-import game.spaceinvaders.model.Position;
 
 import java.security.NoSuchAlgorithmException;
 

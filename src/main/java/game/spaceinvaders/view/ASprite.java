@@ -2,7 +2,7 @@ package game.spaceinvaders.view;
 
 import game.spaceinvaders.Controller;
 import game.spaceinvaders.model.IMobile;
-import game.spaceinvaders.controller.SpaceShip;
+import game.spaceinvaders.model.SpaceShip;
 import processing.core.PImage;
 
 public abstract class ASprite implements IVue {

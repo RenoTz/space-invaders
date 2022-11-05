@@ -2,7 +2,7 @@ package game.spaceinvaders;
 
 import game.spaceinvaders.controller.Loader;
 import game.spaceinvaders.model.shield.Shield;
-import game.spaceinvaders.controller.SpaceShip;
+import game.spaceinvaders.model.SpaceShip;
 import game.spaceinvaders.model.shots.Tir;
 import game.spaceinvaders.utils.FileUtils;
 import processing.core.PApplet;

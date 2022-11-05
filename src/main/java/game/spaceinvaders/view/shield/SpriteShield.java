@@ -1,7 +1,6 @@
 package game.spaceinvaders.view.shield;
 
 import game.spaceinvaders.Controller;
-import game.spaceinvaders.controller.SpaceShip;
 import game.spaceinvaders.utils.FileUtils;
 import game.spaceinvaders.model.IMobile;
 import processing.core.PImage;

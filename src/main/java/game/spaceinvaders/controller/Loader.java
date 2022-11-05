@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.spaceinvaders.Controller;
+import game.spaceinvaders.model.SpaceShip;
 import game.spaceinvaders.view.IVue;
 import game.spaceinvaders.view.shield.SpriteShield;
 import game.spaceinvaders.view.enemies.SpriteA;

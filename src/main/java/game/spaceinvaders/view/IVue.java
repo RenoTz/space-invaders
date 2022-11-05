@@ -1,6 +1,6 @@
 package game.spaceinvaders.view;
 
-import game.spaceinvaders.controller.SpaceShip;
+import game.spaceinvaders.model.SpaceShip;
 
 public interface IVue {
 	void draw();
